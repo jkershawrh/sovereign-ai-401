@@ -7,5 +7,5 @@ RUN npm run build
 
 FROM cgr.dev/chainguard/nginx@sha256:57e924b3b177cf480ce53cdcad2982b44093494c217d2bc95f2fb5b6a0950a5a
 COPY --from=build /opt/app-root/src/dist /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/http.d/default.conf
+COPY nginx.conf /etc/nginx/conf.d/nginx.default.conf
 EXPOSE 8080

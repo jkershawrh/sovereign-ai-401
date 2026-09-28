@@ -35,6 +35,8 @@ test('no environment secret fallback or fabricated performance copy is shipped',
 
 test('presentation exposes explicit health and readiness endpoints', async () => {
   const config = await readFile('nginx.conf', 'utf8')
+  const containerfile = await readFile('Containerfile', 'utf8')
   assert.match(config, /location = \/healthz/)
   assert.match(config, /location = \/readyz/)
+  assert.match(containerfile, /\/etc\/nginx\/conf\.d\/nginx\.default\.conf/)
 })
