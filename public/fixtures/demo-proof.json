@@ -1,0 +1,8 @@
+{
+  "data": {
+    "decision": "ALLOW_SYNTHETIC_RELEASE",
+    "sourceState": "REHEARSAL",
+    "outcome": "Expected measurement; synthetic receipt only"
+  },
+  "collectedAt": "2026-09-28T22:30:00.000Z"
+}

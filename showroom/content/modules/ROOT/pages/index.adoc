@@ -1,0 +1,5 @@
+= Confidential inference trust-chain foundations
+
+This 35-minute lab uses **REHEARSAL** fixtures. It does not produce a TDX quote, release a secret, invoke a model, or claim latency or performance. LIVE TDX credit requires current hardware-rooted evidence from an approved environment.
+
+You will trace: TDX-capable hardware → challenge-bound measured workload identity → appraisal policy → resource policy → independent inference authorization → human authority.

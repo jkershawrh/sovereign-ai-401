@@ -1,0 +1,7 @@
+* xref:index.adoc[Trust-chain foundations]
+* xref:01-protection.adoc[1. Protection and threats]
+* xref:02-challenge.adoc[2. Challenge and evidence]
+* xref:03-appraise.adoc[3. Appraise identity]
+* xref:04-release.adoc[4. Authorize resources]
+* xref:05-failures.adoc[5. Refuse unsafe states]
+* xref:06-handoff.adoc[6. Evidence and handoff]

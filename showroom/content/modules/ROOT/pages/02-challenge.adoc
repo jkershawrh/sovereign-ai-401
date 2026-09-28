@@ -1,0 +1,3 @@
+= 2. Challenge and evidence
+
+A CPU product name or `runtimeClassName` signals capability or intent. Neither observes this workload inside TDX. Inspect the evidence contract, then issue a unique verifier challenge. The nonce must be bound into evidence and consumed once; otherwise an old result can be replayed.

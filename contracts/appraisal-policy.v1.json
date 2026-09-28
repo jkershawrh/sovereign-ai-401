@@ -1,0 +1,1 @@
+{"policyId":"attestation-appraisal-v1","sourceState":"REHEARSAL","maxAgeSeconds":120,"requireSingleUseNonce":true,"requireTee":"tdx","expectedMeasurement":"sha384:rehearsal-workload-v1","unknown":"deny"}

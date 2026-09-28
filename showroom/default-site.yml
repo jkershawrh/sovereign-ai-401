@@ -1,0 +1,5 @@
+antora:
+  name: modules
+  dir: www
+  modules: [ROOT]
+  playbook: site.yml

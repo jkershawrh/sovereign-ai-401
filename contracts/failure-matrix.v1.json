@@ -1,0 +1,1 @@
+{"allowed":"ALLOW_SYNTHETIC_RELEASE","invalid_measurement":"DENY_MEASUREMENT","stale_evidence":"DENY_STALE","replayed_evidence":"DENY_REPLAY","verifier_unavailable":"DENY_VERIFIER_UNAVAILABLE","kbs_unavailable":"DENY_KBS_UNAVAILABLE","non_tdx":"DENY_NON_TDX"}

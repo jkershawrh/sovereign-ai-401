@@ -1,0 +1,3 @@
+= 5. Refuse unsafe states
+
+Run all seven conditions: allowed, invalid measurement, stale evidence, replayed evidence, verifier unavailable, KBS unavailable, and non-TDX. The one allowed REHEARSAL path emits a synthetic authorization receipt. Every other path denies, with no secret fallback, model call, or LIVE label.

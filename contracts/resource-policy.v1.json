@@ -1,0 +1,1 @@
+{"policyId":"model-resource-v1","resource":"models/granite/key","requiredAppraisalPolicy":"attestation-appraisal-v1","effect":"synthetic-release-receipt-only","actualKeyMaterial":false,"inferenceAuthorization":"independent-and-not-granted"}

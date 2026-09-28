@@ -1,0 +1,3 @@
+= 4. Authorize one resource
+
+Trustee KBS resource policy decides whether a valid appraisal may receive one exact resource. A valid appraisal alone grants nothing. This lab emits only a synthetic receipt and never key material. Even an authorized release does not authorize an inference request; caller, prompt, model, and residency policy remain independent.

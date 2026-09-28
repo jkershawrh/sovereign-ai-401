@@ -1,0 +1,5 @@
+= 6. Evidence and handoff
+
+Your receipt proves deterministic rehearsal behavior only. It cannot prove an enabled Intel TDX platform, workload placement, a verified quote, a live Trustee decision, or confidential inference performance.
+
+Named humans own reference-value changes, deployment, certification, and promotion. Launchpad must independently qualify the target cluster, immutable images, Trustee policies, one-seat behavior, scale, reclaim, and rollback.
