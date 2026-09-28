@@ -1,6 +1,6 @@
 sourceState: REHEARSAL
 image:
-  repository: ghcr.io/jkershawrh/sovereign-ai-301-qualifier
+  repository: ghcr.io/jkershawrh/sovereign-ai-401-qualifier
   tag: latest
   digest: ""
   pullPolicy: IfNotPresent

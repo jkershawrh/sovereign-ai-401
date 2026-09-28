@@ -1,0 +1,11 @@
+= 5. Authorize one resource
+
+Apply deterministic resource policy to the appraised identity. The policy binds
+one approved workload identity to one named resource and policy version.
+
+The allowed rehearsal emits only a hash receipt. It never returns key material.
+Change the requested resource and verify `RESOURCE_POLICY_DENIED`. Disable the
+key broker and verify `ABSTAIN` rather than a fallback secret.
+
+Capture the appraisal and authorization receipts as separate evidence records.
+

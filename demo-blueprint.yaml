@@ -4,7 +4,7 @@ identity:
   title: "Sovereign AI 401 — Operate Confidential AI with Intel TDX"
   track: sovereign_ai
   learning_level: "401"
-  status: discovery_contract_design
+  status: factory_green_rehearsal
 sources:
   prerequisite:
     repository: https://github.com/jkershawrh/sovereign-ai-301
@@ -40,4 +40,3 @@ runtime:
   deployment_scope: participant_namespace
   exact_digest_images_required: true
   release_gate: zero_high_zero_critical
-

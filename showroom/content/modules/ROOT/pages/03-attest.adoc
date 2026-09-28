@@ -1,0 +1,13 @@
+= 3. Collect attestation evidence
+
+Trace where a real confidential workload would request an Intel TDX quote and
+where the quote service sits outside the workload boundary. Inspect the
+rehearsal fixture's provenance before using it.
+
+The fixture is not a cryptographic quote and is always labeled **REHEARSAL**.
+Change its source state to `LIVE` without changing its evidence kind. The
+service must refuse the false-live claim before appraisal or resource policy.
+
+Record the live gate: confidential guest running, challenge-bound quote,
+signature verified, and workload identity observed.
+

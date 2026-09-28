@@ -1,0 +1,14 @@
+= 8. Verify evidence and reclaim
+
+Verify that capability, challenge, evidence, appraisal, authorization, refusal,
+and revocation records share one correlation identifier and valid digest links.
+The complete factory journey proves deterministic **REHEARSAL** behavior only.
+
+It does not prove a running confidential guest, a current hardware-rooted TDX
+quote, protected-resource delivery, confidential inference, or performance.
+Launchpad must independently qualify those facts in the destination cluster.
+
+Uninstall the participant-scoped release and verify that pods, routes, services,
+policies, temporary evidence, and credentials leave zero residue. Record any
+cluster-owned shared operators separately; participants do not remove them.
+

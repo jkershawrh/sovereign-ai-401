@@ -1,70 +1,95 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { qualify, resetReplayCache, scenarios } from '../workload/trust-chain.mjs'
+import {operate, resetState, revokeMeasurement, scenarios} from '../workload/trust-chain.mjs'
 
 const expected = {
-  allowed: ['ALLOW_SYNTHETIC_RELEASE', 'REHEARSAL'],
-  invalid_measurement: ['DENY_MEASUREMENT', 'REHEARSAL'],
-  stale_evidence: ['DENY_STALE', 'REHEARSAL'],
-  replayed_evidence: ['DENY_REPLAY', 'REHEARSAL'],
-  verifier_unavailable: ['DENY_VERIFIER_UNAVAILABLE', 'OFFLINE'],
-  kbs_unavailable: ['DENY_KBS_UNAVAILABLE', 'OFFLINE'],
-  non_tdx: ['DENY_NON_TDX', 'REHEARSAL'],
+  authorized: ['ALLOW_REVIEW', 'REHEARSAL', 'REHEARSAL_POLICY_MATCH'],
+  identity_mismatch: ['REFUSE', 'REHEARSAL', 'WORKLOAD_IDENTITY_MISMATCH'],
+  invalid_measurement: ['REFUSE', 'REHEARSAL', 'MEASUREMENT_MISMATCH'],
+  stale_evidence: ['REFUSE', 'REHEARSAL', 'STALE_QUOTE'],
+  replayed_evidence: ['REFUSE', 'REHEARSAL', 'REPLAYED_CHALLENGE'],
+  tcb_out_of_date: ['REFUSE', 'REHEARSAL', 'TCB_NOT_APPROVED'],
+  revoked_measurement: ['REFUSE', 'REHEARSAL', 'MEASUREMENT_REVOKED'],
+  verifier_unavailable: ['ABSTAIN', 'OFFLINE', 'VERIFIER_UNAVAILABLE'],
+  kbs_unavailable: ['ABSTAIN', 'OFFLINE', 'KBS_UNAVAILABLE'],
+  non_tdx: ['REFUSE', 'REHEARSAL', 'NON_TDX_EVIDENCE'],
+  simulated_live_claim: ['REFUSE', 'REHEARSAL', 'FALSE_LIVE_CLAIM'],
 }
 
-test.beforeEach(() => resetReplayCache())
+test.beforeEach(() => resetState())
 
-for (const [scenario, [decision, sourceState]] of Object.entries(expected)) {
+for (const [scenario, [decision, sourceState, reason]] of Object.entries(expected)) {
   test(`${scenario} returns its typed fail-closed outcome`, () => {
-    const result = qualify(scenarios[scenario])
+    const result = operate(scenarios[scenario])
     assert.equal(result.decision, decision)
     assert.equal(result.sourceState, sourceState)
-    assert.equal(result.liveTdxObserved, false)
-    assert.equal(result.keyMaterialReleased, false)
-    assert.equal(result.modelInvoked, false)
-    assert.equal(result.performanceClaim, null)
-    assert.equal(JSON.stringify(result).includes('fixture-value'), false)
+    assert.deepEqual(result.reasonCodes, [reason])
+    assert.equal(result.observation.confidentialGuestRunning, false)
+    assert.equal(result.observation.liveTdxQuoteVerified, false)
+    assert.equal(result.protectedResource.keyMaterialReleased, false)
+    assert.equal(result.inference.modelInvoked, false)
+    assert.equal(result.inference.performanceClaim, null)
   })
 }
 
-test('capability and runtimeClass never become observed TDX execution', () => {
-  const result = qualify({...scenarios.allowed, capability: {cpu: 'tdx-capable', runtimeClassName: 'kata-cc'}})
+test('successful rehearsal records all eight operating stages', () => {
+  const result = operate(scenarios.authorized)
+  assert.deepEqual(
+    result.operationTrace,
+    ['CAPABILITY', 'CHALLENGE', 'ATTEST', 'APPRAISE', 'AUTHORIZE', 'INFER', 'REVOKE', 'VERIFY']
+      .map(stage => ({stage, status: 'COMPLETE'})),
+  )
+  assert.equal(result.evidenceChain.verified, true)
+})
+
+test('host capability never becomes observed confidential execution', () => {
+  const result = operate(scenarios.authorized)
   assert.equal(result.capability.tdxCapable, true)
-  assert.equal(result.observation.tdxEnabled, false)
-  assert.equal(result.liveTdxObserved, false)
+  assert.equal(result.observation.confidentialGuestRunning, false)
+  assert.equal(result.observation.liveTdxQuoteVerified, false)
 })
 
-test('nonce is bound, fresh, and single use', () => {
-  const first = qualify(scenarios.allowed)
-  assert.equal(first.decision, 'ALLOW_SYNTHETIC_RELEASE')
-  const replay = qualify(scenarios.allowed)
-  assert.equal(replay.decision, 'DENY_REPLAY')
-  assert.equal(replay.resourcePolicy.allowed, false)
+test('nonce is fresh and single use', () => {
+  const first = operate(scenarios.authorized)
+  assert.equal(first.decision, 'ALLOW_REVIEW')
+  const replay = operate(scenarios.authorized)
+  assert.equal(replay.decision, 'REFUSE')
+  assert.deepEqual(replay.reasonCodes, ['REPLAYED_CHALLENGE'])
 })
 
-test('valid appraisal cannot authorize a different resource', () => {
-  const result = qualify({...scenarios.allowed, requestedResource: 'models/other/key'})
-  assert.equal(result.appraisal.valid, true)
-  assert.equal(result.resourcePolicy.allowed, false)
-  assert.equal(result.decision, 'DENY_RESOURCE_POLICY')
-})
-
-test('key-release authorization is not inference authorization', () => {
-  const result = qualify(scenarios.allowed)
+test('authorization receipt is not a key or inference permission', () => {
+  const result = operate(scenarios.authorized)
   assert.equal(result.resourcePolicy.allowed, true)
-  assert.equal(result.keyRelease.authorized, true)
-  assert.equal(result.keyMaterialReleased, false)
-  assert.equal(result.inferenceAuthorization.allowed, false)
-  assert.equal(result.modelInvoked, false)
+  assert.equal(result.protectedResource.authorized, true)
+  assert.match(result.protectedResource.receipt, /^sha256:[a-f0-9]{64}$/)
+  assert.equal(result.protectedResource.keyMaterialReleased, false)
+  assert.equal(result.inference.authorized, false)
+  assert.equal(result.inference.modelInvoked, false)
 })
 
-test('human authority remains false for deployment certification and promotion', () => {
-  const result = qualify(scenarios.allowed)
-  assert.deepEqual(result.humanAuthority, {mayDeploy: false, mayChangeReferenceValues: false, certified: false, promotionEligible: false})
+test('revocation takes effect on the next request', () => {
+  revokeMeasurement()
+  const result = operate(scenarios.authorized)
+  assert.equal(result.decision, 'REFUSE')
+  assert.deepEqual(result.reasonCodes, ['MEASUREMENT_REVOKED'])
 })
 
-test('malformed or unknown evidence fails closed', () => {
-  const result = qualify({scenario: 'unknown', evidence: {}})
-  assert.equal(result.decision, 'DENY_INVALID_EVIDENCE')
-  assert.equal(result.resourcePolicy.allowed, false)
+test('human and model authority remain bounded', () => {
+  const result = operate(scenarios.authorized)
+  assert.deepEqual(result.authority, {
+    humanReviewRequired: true,
+    mayDeploy: false,
+    mayChangeReferenceValues: false,
+    mayReleaseProductionSecrets: false,
+    certified: false,
+    promotionEligible: false,
+    llmAuthority: 'NONE',
+  })
+})
+
+test('malformed evidence fails closed', () => {
+  const result = operate({scenario: 'unknown', evidence: {}})
+  assert.equal(result.decision, 'REFUSE')
+  assert.equal(result.sourceState, 'OFFLINE')
+  assert.deepEqual(result.reasonCodes, ['INVALID_EVIDENCE'])
 })

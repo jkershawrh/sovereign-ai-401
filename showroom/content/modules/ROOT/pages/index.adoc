@@ -1,5 +1,11 @@
-= Confidential inference trust-chain foundations
+= Operate confidential AI with Intel TDX
 
-This 35-minute lab uses **REHEARSAL** fixtures. It does not produce a TDX quote, release a secret, invoke a model, or claim latency or performance. LIVE TDX credit requires current hardware-rooted evidence from an approved environment.
+This 75–90 minute lab uses **REHEARSAL** fixtures until the destination proves a running confidential guest and a fresh Intel TDX quote. It does not release a secret, invoke a model, or claim latency or performance.
 
-You will trace: TDX-capable hardware → challenge-bound measured workload identity → appraisal policy → resource policy → independent inference authorization → human authority.
+You will operate the complete trust lifecycle:
+
+CAPABILITY → CHALLENGE → ATTEST → APPRAISE → AUTHORIZE → INFER → REVOKE → VERIFY
+
+Each exercise separates observed evidence from policy and authority. The
+deterministic service may issue a synthetic receipt, but only a named human can
+approve deployment, reference-value changes, certification, or promotion.

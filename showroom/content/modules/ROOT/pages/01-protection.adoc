@@ -1,5 +1,0 @@
-= 1. Protection states and threat boundary
-
-At-rest encryption protects stored bytes. In-transit encryption protects a channel. Intel TDX addresses data in use by isolating a trust domain's memory and CPU state from host software. It does not by itself solve availability, every side channel, malicious guest code, bad reference values, or bad policy.
-
-Record which claim belongs to each state. Treat the host OS, hypervisor, other VMs, and cloud administrator as outside the TD confidentiality and integrity boundary while keeping the residual risks visible.

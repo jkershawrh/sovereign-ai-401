@@ -1,3 +1,0 @@
-= 3. Appraise measured identity
-
-The verifier checks authenticity, challenge binding, freshness, endorsements, and measurements against named reference values. Evidence is input; appraisal is the verifier's result. Change the measurement and timestamp. Both must refuse release without becoming a generic success.

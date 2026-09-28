@@ -1,0 +1,13 @@
+= 4. Appraise independently
+
+The verifier—not the workload and not an LLM—checks authenticity, challenge
+binding, freshness, endorsements, reference measurements, and TCB status.
+
+Run the measurement-mismatch, stale-quote, non-TDX, TCB-out-of-date, and
+verifier-unavailable scenarios. A mismatch or invalid state is `REFUSE`.
+Unavailable independent evidence is `ABSTAIN`. Neither result may release key
+material or invoke a model.
+
+Explain why appraisal is a claim about evidence, not permission to use a
+resource.
+

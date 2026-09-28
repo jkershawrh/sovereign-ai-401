@@ -1,3 +1,11 @@
-= 2. Challenge and evidence
+= 2. Issue a workload-bound challenge
 
-A CPU product name or `runtimeClassName` signals capability or intent. Neither observes this workload inside TDX. Inspect the evidence contract, then issue a unique verifier challenge. The nonce must be bound into evidence and consumed once; otherwise an old result can be replayed.
+Declare the expected namespace, service account, immutable image digest, and
+requested protected resource. Issue a unique nonce with a short expiration.
+
+The challenge prevents an old attestation result from being replayed for a new
+decision. Confirm that the operation contract binds the nonce to the exact
+workload identity and consumes it only once.
+
+Run the replay fixture after the allowed rehearsal. The second request must be
+`REFUSE` with `REPLAYED_CHALLENGE`.

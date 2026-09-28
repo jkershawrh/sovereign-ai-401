@@ -9,8 +9,8 @@ const mustExist = [
   'contracts/resource-policy.v1.json',
   'contracts/failure-matrix.v1.json',
   'showroom/default-site.yml',
-  'charts/sovereign-ai-301/Chart.yaml',
-  'charts/sovereign-ai-301/values.schema.json',
+  'charts/sovereign-ai-401/Chart.yaml',
+  'charts/sovereign-ai-401/values.schema.json',
   '.github/workflows/release.yml',
   'handoff/launchpad-handoff.yaml',
 ]
@@ -20,7 +20,7 @@ test('contract implementation and delivery artifacts exist', async () => {
 })
 
 test('chart defaults to rehearsal and cannot imply LIVE TDX', async () => {
-  const values = await readFile('charts/sovereign-ai-301/values.yaml', 'utf8')
+  const values = await readFile('charts/sovereign-ai-401/values.yaml', 'utf8')
   assert.match(values, /sourceState:\s*REHEARSAL/)
   assert.match(values, /confidentialRuntime:\s*\n\s+enabled:\s+false/)
 })

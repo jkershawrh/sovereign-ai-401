@@ -3,9 +3,9 @@ kind: Deployment
 metadata: {name: {{ .Release.Name }} }
 spec:
   replicas: 1
-  selector: {matchLabels: {app.kubernetes.io/name: sovereign-ai-301}}
+  selector: {matchLabels: {app.kubernetes.io/name: sovereign-ai-401}}
   template:
-    metadata: {labels: {app.kubernetes.io/name: sovereign-ai-301}}
+    metadata: {labels: {app.kubernetes.io/name: sovereign-ai-401}}
     spec:
       automountServiceAccountToken: false
       securityContext: {runAsNonRoot: true, seccompProfile: {type: RuntimeDefault}}

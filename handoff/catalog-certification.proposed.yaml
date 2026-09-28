@@ -1,6 +1,6 @@
 api_version: launchpad.redhat.com/v1alpha1
 kind: CatalogCertificationProposal
-metadata: {catalog_item_id: sovereign-ai-301, status: draft}
+metadata: {catalog_item_id: sovereign-ai-401, status: draft}
 spec:
   certified: false
   promotion_eligible: false

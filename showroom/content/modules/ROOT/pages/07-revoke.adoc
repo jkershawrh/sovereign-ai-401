@@ -1,0 +1,13 @@
+= 7. Revoke trust
+
+Revoke the approved rehearsal measurement, then submit the previously allowed
+workload with a fresh nonce. The service must refuse it with
+`MEASUREMENT_REVOKED`.
+
+This exercise proves that trust is evaluated at request time rather than
+granted permanently. Record the reference-values version, revocation actor,
+timestamp, and the denied follow-up receipt.
+
+Only named humans may change reference values. The lab does not promote policy
+or repair the confidential runtime automatically.
+

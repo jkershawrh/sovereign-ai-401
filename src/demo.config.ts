@@ -18,15 +18,15 @@ const technicalTopology = {
 }
 
 export const demoConfig: DemoConfig = {
-  id: 'sovereign-ai-301', title: "Sovereign AI 301 — Confidential Inference and Intel TDX Foundations", subtitle: "Capability → measured identity → policy-gated model access", event: 'Platform security briefing', audience: 'Platform security engineers', cta: 'Trace what is proven—and what is not.',
+  id: 'sovereign-ai-401', title: "Sovereign AI 401 — Operate Confidential AI with Intel TDX", subtitle: "Challenge → attest → appraise → authorize → revoke", event: 'Confidential AI operations briefing', audience: 'Security, platform, and AI operations teams', cta: 'Operate the trust lifecycle without turning capability into a claim.',
   brand: { primary: { name: 'Red Hat', logo: '/logos/redhat.svg', alt: 'Red Hat' }, partner: { name: 'Intel', logo: '/logos/intel.png', alt: 'Intel' }, attribution: 'Red Hat × Intel' },
   acts: [
     { id: 'story', label: '00', title: 'The Decision', scenes: [
-      { id: 'intro', type: 'intro', beat: 'ordinary-world', title: 'Encrypted is not yet attested', subtitle: 'At rest · in transit · in use are three different claims', speakerPrompt: 'State that this session is REHEARSAL: no current TDX quote, secret, model call, or performance measurement.' },
+      { id: 'intro', type: 'intro', beat: 'ordinary-world', title: 'Capability is not trust', subtitle: 'A TDX-capable host does not prove this workload is trustworthy now', speakerPrompt: 'State that this session is REHEARSAL: no current confidential guest, TDX quote, secret, model call, or performance measurement.' },
       { id: 'reframe', type: 'reframe', beat: 'stakes', eyebrow: 'The dangerous shortcut', title: 'A TDX-capable host does not identify this workload', before: 'Capability or runtimeClass', after: 'Fresh evidence + appraisal + policy', detail: 'A valid appraisal still grants no resource; a released resource still grants no inference permission.', speakerPrompt: 'Separate capability, observation, evidence, appraisal, resource policy, inference policy, and human authority.' },
     ] },
     { id: 'architecture', label: '01', title: 'Guided Architecture', scenes: [
-      { id: 'guided-architecture', type: 'guided-architecture', beat: 'system-reveal', eyebrow: 'Trust chain', title: 'Six boundaries, one fail-closed chain', body: 'Every arrow changes the kind of claim; none may be skipped.', layers: [
+      { id: 'guided-architecture', type: 'guided-architecture', beat: 'system-reveal', eyebrow: 'Trust lifecycle', title: 'Eight states, one fail-closed chain', body: 'Every transition changes the kind of claim; none may be skipped.', layers: [
         { id: 'input', component: 'Protection state', tone: 'primary', question: 'What does TDX add?', answer: 'Protection for data in use against host software.', detail: 'It does not replace storage or transport encryption and does not solve every residual risk.', activeNodeIds: ['browser', 'route'] },
         { id: 'platform', component: 'Red Hat platform', tone: 'primary', question: 'Where does the workload run and remain governable?', answer: 'The platform owns deployment, policy, isolation, and operations.', detail: 'Include only platform services that alter proof, risk, or the audience decision.', activeNodeIds: ['service', 'runtime'] },
         { id: 'compute', component: 'Intel compute', tone: 'partner', question: 'What makes the workload practical here?', answer: 'The selected compute path supports the workload claim.', detail: 'Use measured evidence for performance, placement, or efficiency claims.', activeNodeIds: ['proof-service'] },
@@ -35,16 +35,25 @@ export const demoConfig: DemoConfig = {
       ], technicalTopology, speakerPrompt: 'Pause on every question. Invite an answer, then reveal the actual runtime objects and boundary before advancing.' },
     ] },
     { id: 'proof', label: '02', title: 'Live Walkthrough', scenes: [
-      { id: 'live', type: 'live-journey', beat: 'live-proof', eyebrow: 'REHEARSAL · synthetic evidence', title: 'Allow once, then refuse the replay', body: 'The allowed path emits only a synthetic receipt. Reusing its nonce refuses release.', cta: 'Run the rehearsal', workspace: { label: 'Open the Showroom lab', href: '/lab/' }, nodes: [
-        { id: 'input', label: 'Experience input', detail: 'bounded request', tone: 'primary' },
-        { id: 'platform', label: 'Red Hat platform', detail: 'policy and operations', tone: 'primary' },
-        { id: 'compute', label: 'Intel compute', detail: 'measured execution', tone: 'partner' },
-        { id: 'adapter', label: 'Proof adapter', detail: 'typed evidence', tone: 'success' },
-        { id: 'decision', label: 'Human decision', detail: 'authority stays visible', tone: 'primary' },
+      { id: 'live', type: 'live-journey', beat: 'live-proof', eyebrow: 'REHEARSAL · synthetic evidence', title: 'Operate the complete trust lifecycle', body: 'Follow one workload from capability through revocation and chain verification. Every step remains visibly REHEARSAL until a real confidential guest and TDX quote exist.', cta: 'Run the trust lifecycle', workspace: { label: 'Open the Showroom lab', href: '/lab/' }, nodes: [
+        { id: 'capability', label: 'Capability', detail: 'host and runtime', tone: 'partner' },
+        { id: 'challenge', label: 'Challenge', detail: 'fresh workload-bound nonce', tone: 'primary' },
+        { id: 'attest', label: 'Attest', detail: 'quote evidence', tone: 'partner' },
+        { id: 'appraise', label: 'Appraise', detail: 'measurements and TCB', tone: 'primary' },
+        { id: 'authorize', label: 'Authorize', detail: 'deterministic resource policy', tone: 'success' },
+        { id: 'infer', label: 'Infer', detail: 'independent request gate', tone: 'primary' },
+        { id: 'revoke', label: 'Revoke', detail: 'deny the next request', tone: 'partner' },
+        { id: 'verify', label: 'Verify', detail: 'evidence chain', tone: 'success' },
       ], technicalTopology, steps: [
-        { id: 'baseline', title: 'Expected measurement', detail: 'Fresh single-use evidence appraises and resource policy authorizes a synthetic receipt.', adapterId: 'demo-proof', activeNode: 3, activeNodeIds: ['browser', 'route', 'service', 'runtime', 'proof-service', 'evidence'], resultFields: [{ key: 'decision', label: 'Decision' }, { key: 'sourceState', label: 'Source' }, { key: 'outcome', label: 'Boundary' }] },
-        { id: 'changed', title: 'Replay the nonce', detail: 'The same evidence is no longer fresh for this decision and release is refused.', adapterId: 'demo-proof-changed', activeNode: 4, activeNodeIds: ['browser', 'runtime', 'evidence', 'human'], resultFields: [{ key: 'decision', label: 'Decision' }, { key: 'sourceState', label: 'Source' }, { key: 'outcome', label: 'Boundary' }] },
-      ], speakerPrompt: 'Narrate the deployment objects, protocols, trust boundary, and active path while it runs. Say LIVE, REHEARSAL, or OFFLINE before interpreting each result.' },
+        { id: 'capability', title: 'Observe capability', detail: 'Confirm Intel TDX capability and kata-cc configuration without calling the workload trusted.', adapterId: 'tdx-capability', activeNode: 0, activeNodeIds: ['route'], resultFields: [{ key: 'decision', label: 'State' }, { key: 'sourceState', label: 'Source' }, { key: 'outcome', label: 'Evidence' }] },
+        { id: 'challenge', title: 'Issue a fresh challenge', detail: 'Bind a single-use nonce to namespace, service account, and immutable workload image.', adapterId: 'tdx-challenge', activeNode: 1, activeNodeIds: ['browser', 'service'], resultFields: [{ key: 'decision', label: 'State' }, { key: 'sourceState', label: 'Source' }, { key: 'outcome', label: 'Evidence' }] },
+        { id: 'attest', title: 'Collect attestation evidence', detail: 'Collect quote evidence from the confidential workload boundary; this factory uses a labeled synthetic fixture.', adapterId: 'tdx-attest', activeNode: 2, activeNodeIds: ['service', 'evidence'], resultFields: [{ key: 'decision', label: 'State' }, { key: 'sourceState', label: 'Source' }, { key: 'outcome', label: 'Evidence' }] },
+        { id: 'appraise', title: 'Appraise independently', detail: 'Verify challenge binding, signature, freshness, reference measurements, and TCB status.', adapterId: 'tdx-appraise', activeNode: 3, activeNodeIds: ['runtime', 'evidence'], resultFields: [{ key: 'decision', label: 'State' }, { key: 'sourceState', label: 'Source' }, { key: 'outcome', label: 'Decision' }] },
+        { id: 'authorize', title: 'Apply resource policy', detail: 'Authorize only the named workload and resource; a rehearsal receipt contains no key material.', adapterId: 'tdx-authorize', activeNode: 4, activeNodeIds: ['proof-service', 'policy'], resultFields: [{ key: 'decision', label: 'State' }, { key: 'sourceState', label: 'Source' }, { key: 'outcome', label: 'Decision' }] },
+        { id: 'infer', title: 'Keep inference independent', detail: 'Resource appraisal does not grant caller or model permission. Production inference stays disabled.', adapterId: 'tdx-infer', activeNode: 5, activeNodeIds: ['policy', 'human'], resultFields: [{ key: 'decision', label: 'State' }, { key: 'sourceState', label: 'Source' }, { key: 'outcome', label: 'Authority' }] },
+        { id: 'revoke', title: 'Revoke trust', detail: 'Revoke the reference measurement and prove the next matching request is refused.', adapterId: 'tdx-revoke', activeNode: 6, activeNodeIds: ['runtime', 'proof-service', 'human'], resultFields: [{ key: 'decision', label: 'State' }, { key: 'sourceState', label: 'Source' }, { key: 'outcome', label: 'Effect' }] },
+        { id: 'verify', title: 'Verify the chain', detail: 'Link challenge, appraisal, policy, authorization, refusal, and revocation receipts.', adapterId: 'tdx-verify', activeNode: 7, activeNodeIds: ['evidence', 'human'], resultFields: [{ key: 'decision', label: 'State' }, { key: 'sourceState', label: 'Source' }, { key: 'outcome', label: 'Proof' }] },
+      ], speakerPrompt: 'Narrate each state and its authority boundary. Say REHEARSAL before interpreting every result; do not imply a live confidential guest.' },
       { id: 'tradeoff', type: 'comparison', beat: 'trials', title: 'Fail closed across every unsafe state', columns: [{ label: 'Allowed', value: 'Synthetic receipt', detail: 'Expected measurement + fresh nonce + available verifier and KBS.', tone: 'success' }, { label: 'Refused', value: 'No key · no model', detail: 'Invalid measurement, stale, replay, unavailable verifier/KBS, or non-TDX.', tone: 'partner' }], speakerPrompt: 'Name all seven conditions. Never call the allowed fixture LIVE TDX.' },
     ] },
     { id: 'mechanisms', label: '03', title: 'Why It Works', scenes: [
@@ -55,10 +64,10 @@ export const demoConfig: DemoConfig = {
       ], speakerPrompt: 'Explain only the mechanisms needed to make the observed result understandable and repeatable.' },
     ] },
     { id: 'payoff', label: '04', title: 'Evidence & Handoff', scenes: [
-      { id: 'payoff', type: 'evidence-payoff', beat: 'transformation', eyebrow: 'Bounded conclusion', title: 'Rehearsal semantics pass; LIVE TDX remains blocked', adapterIds: ['demo-proof', 'demo-proof-changed'], fallbackLine: 'Run the rehearsal to populate this receipt', evidenceFields: [{ key: 'decision', label: 'Latest decision' }, { key: 'sourceState', label: 'Evidence source' }, { key: 'outcome', label: 'Observed boundary' }], line1: 'Capability did not become workload identity.', line2: 'Appraisal did not become permission or human authority.', cta: 'Continue into the separate Showroom lab →', speakerPrompt: 'Close with blockers: current quote, TDX placement, live Trustee/KBS, and independent certification.' },
+      { id: 'payoff', type: 'evidence-payoff', beat: 'transformation', eyebrow: 'Bounded conclusion', title: 'The trust lifecycle is operable; LIVE TDX remains blocked', adapterIds: ['tdx-authorize', 'tdx-revoke', 'tdx-verify'], fallbackLine: 'Run the rehearsal to populate this receipt', evidenceFields: [{ key: 'decision', label: 'Latest state' }, { key: 'sourceState', label: 'Evidence source' }, { key: 'outcome', label: 'Observed boundary' }], line1: 'Capability did not become workload identity.', line2: 'Appraisal did not become permission or human authority.', cta: 'Continue into the separate Showroom lab →', speakerPrompt: 'Close with blockers: a running confidential guest, current TDX quote, live verifier/KBS, protected resource proof, and independent certification.' },
     ] },
   ],
   journeyHandoffs: [
-    { depth: 'guided', title: 'Sovereign AI 301 Showroom', duration: '30–40 minutes', question: 'Can the learner locate every evidence and policy boundary?', technology: 'Synthetic fixtures · Failure matrix · Human handoff', instruction: 'Run all seven conditions, then record the LIVE blockers.', href: '/lab/' },
+    { depth: 'guided', title: 'Sovereign AI 401 Showroom', duration: '30–40 minutes', question: 'Can the learner locate every evidence and policy boundary?', technology: 'Synthetic fixtures · Failure matrix · Human handoff', instruction: 'Run all seven conditions, then record the LIVE blockers.', href: '/lab/' },
   ],
 }

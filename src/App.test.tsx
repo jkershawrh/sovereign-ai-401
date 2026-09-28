@@ -15,7 +15,7 @@ describe('presentation controls', () => {
   it('supports deep links', () => {
     window.history.replaceState(null, '', '/?act=1&scene=0')
     render(<App />)
-    expect(screen.getByText('Six boundaries, one fail-closed chain')).toBeInTheDocument()
+    expect(screen.getByText('Eight states, one fail-closed chain')).toBeInTheDocument()
   })
 
   it('restarts from the brand control', () => {

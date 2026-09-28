@@ -1,0 +1,15 @@
+= 6. Keep inference authorization separate
+
+A valid appraisal and resource-policy match do not authorize a caller, prompt,
+model, or inference request. Inspect the response and verify:
+
+* `keyMaterialReleased` is `false`;
+* inference authorization is `false`;
+* `modelInvoked` is `false`;
+* no latency or performance claim is present;
+* LLM authority is `NONE`.
+
+Describe the additional caller, model, residency, and usage policies a real
+inference path would require. Do not add them to the receipt unless the
+destination can observe and verify them.
+

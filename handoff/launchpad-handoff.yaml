@@ -1,14 +1,14 @@
 schema_version: demo-story.redhat-intel.com/launchpad-handoff/v1
 factory_receipt:
-  identity: {catalog_item_id: sovereign-ai-301, display_name: "Sovereign AI 301 — Confidential Inference and Intel TDX Foundations", proposed_track: sovereign_ai, proposed_learning_level: "301"}
+  identity: {catalog_item_id: sovereign-ai-401, display_name: "Sovereign AI 401 — Operate Confidential AI with Intel TDX", proposed_track: sovereign_ai, proposed_learning_level: "401"}
   authority: {orderable: false, certified: false, promotion_eligible: false, may_modify_launchpad_catalog: false, may_provision: false, may_publish: false}
-  presentation_source: {repository: https://github.com/jkershawrh/sovereign-ai-301, revision: PENDING_RELEASE_SHA, tree_dirty: false}
+  presentation_source: {repository: https://github.com/jkershawrh/sovereign-ai-401, revision: PENDING_RELEASE_SHA, tree_dirty: false}
   known_blockers:
     - No approved Intel Xeon TDX host or current quote is attached.
     - No live OpenShift Sandboxed Containers workload placement is verified.
     - No reviewed live Trustee verifier KBS reference values or resource policy are attached.
-    - Sovereign AI 101 and 201 are prerequisites but their independent certification state is not promoted by this handoff.
+    - Sovereign AI 101, 201, and 301 are prerequisites but their independent certification state is not promoted by this handoff.
     - One five and twenty-five seat certification reclaim rollback and trusted rendering remain independent Launchpad gates.
   proposed_launchpad_intake:
-    learning: {learning_level: "301", prerequisites: [sovereign-ai-101, sovereign-ai-201]}
+    learning: {learning_level: "401", prerequisites: [sovereign-ai-101, sovereign-ai-201, sovereign-ai-301]}
     certification: {status: draft, max_workshop_seats: 0, live_tdx: BLOCKED}

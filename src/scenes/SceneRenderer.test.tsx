@@ -16,7 +16,7 @@ describe('SceneRenderer', () => {
   }
 
   it('labels rehearsal data instead of presenting it as live', async () => {
-    const scene: SceneConfig = { id: 'fallback', type: 'live-proof', beat: 'live-proof', title: 'Proof', adapterId: 'demo-proof', cta: 'Run live proof', resultFields: [{ key: 'outcome', label: 'Outcome' }] }
+    const scene: SceneConfig = { id: 'fallback', type: 'live-proof', beat: 'live-proof', title: 'Proof', adapterId: 'tdx-authorize', cta: 'Run live proof', resultFields: [{ key: 'outcome', label: 'Outcome' }] }
     render(<SceneRenderer scene={scene} brand={demoConfig.brand} />)
     fireEvent.click(screen.getByRole('button', { name: /run live proof/i }))
     expect(await screen.findByText('rehearsal')).toBeInTheDocument()
@@ -31,8 +31,9 @@ describe('SceneRenderer', () => {
     expect(screen.getByLabelText('Live technical deployment topology')).toBeInTheDocument()
     expect(screen.getByText('TD workload ↔ relying party')).toBeInTheDocument()
     expect(screen.getByText('RCAR')).toBeInTheDocument()
-    fireEvent.click(screen.getByRole('button', { name: /run the rehearsal/i }))
-    expect((await screen.findAllByText('Expected measurement'))[0]).toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: /run the trust lifecycle/i }))
+    expect((await screen.findAllByText('Observe capability'))[0]).toBeInTheDocument()
+    expect(await screen.findByText(/TDX-capable host and kata-cc configuration observed/)).toBeInTheDocument()
     expect(await screen.findByRole('button', { name: /next live act/i })).toBeInTheDocument()
   })
 

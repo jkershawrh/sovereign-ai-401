@@ -1,5 +1,5 @@
 apiVersion: v2
-name: sovereign-ai-301
+name: sovereign-ai-401
 description: Rehearsal-only confidential inference foundations qualifier
 type: application
 version: 0.1.0
