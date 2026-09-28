@@ -1,0 +1,25 @@
+sourceState: REHEARSAL
+images:
+  presentation:
+    repository: ghcr.io/jkershawrh/sovereign-ai-401-presentation
+    digest: sha256:3406d439643ee0022f0f8b7b33cd32b09ea081fe068879b1e6ed88c8e282bc71
+  qualifier:
+    repository: ghcr.io/jkershawrh/sovereign-ai-401-qualifier
+    digest: sha256:6618e601513a468a807eda1762c124e567c322e89c04a11c067da80bd8ff6721
+imagePullPolicy: IfNotPresent
+presentation:
+  replicas: 1
+  resources:
+    requests: {cpu: 25m, memory: 32Mi}
+    limits: {cpu: 250m, memory: 128Mi}
+qualifier:
+  replicas: 1
+  resources:
+    requests: {cpu: 25m, memory: 48Mi}
+    limits: {cpu: 250m, memory: 128Mi}
+confidentialRuntime:
+  enabled: false
+  runtimeClassName: ""
+networkPolicy:
+  enabled: true
+  ingressNamespaceSelector: {}

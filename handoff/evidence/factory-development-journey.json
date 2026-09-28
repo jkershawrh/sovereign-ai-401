@@ -1,0 +1,10 @@
+{
+  "schema_version": "demo-story.redhat-intel.com/factory-development-journey/v1",
+  "source_revision": "2bb27416e353280eef8da002fa0162b5bbf64f4c",
+  "method": ["CDD", "TDD", "EDD"],
+  "test_gate": {"status": "PASS", "component_tests": 32, "contract_and_runtime_tests": 23, "browser_tests_passed": 11, "showroom_stages": 8, "helm_charts_linted": 1, "npm_audit_vulnerabilities": 0},
+  "artifact_gate": {"status": "PASS_PUBLISHED_CANDIDATE", "architectures": ["linux/amd64"], "published_scan_high": 0, "published_scan_critical": 0},
+  "development_journey": {"status": "PASS_REHEARSAL_ONLY", "operating_stages": 8, "authorized_path": "PASS", "false_live_refusal": "PASS", "evidence_chain_verified": true, "live_tdx_observed": false, "confidential_guest_observed": false, "key_released": false, "model_invoked": false},
+  "integrated_cluster_gate": "NOT_RUN_IN_FACTORY",
+  "authority": "This receipt grants no catalog, provisioning, certification, promotion, or publication authority."
+}
