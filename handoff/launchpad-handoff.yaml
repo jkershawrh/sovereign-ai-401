@@ -22,21 +22,21 @@ factory_receipt:
       architecture: linux/amd64
       source_repository: https://github.com/jkershawrh/sovereign-ai-401
       source_revision: "2bb27416e353280eef8da002fa0162b5bbf64f4c"
-      release_receipt: {path: handoff/evidence/published-qualifier-release.json, sha256: "e9bed9e1a43aec9f00183fcb1d510a85be74ffa30c0fbcfd1f21d64733a8bf88"}
+      release_receipt: {path: evidence/published-qualifier-release.json, sha256: "e9bed9e1a43aec9f00183fcb1d510a85be74ffa30c0fbcfd1f21d64733a8bf88"}
     presentation:
       image: ghcr.io/jkershawrh/sovereign-ai-401-presentation@sha256:3406d439643ee0022f0f8b7b33cd32b09ea081fe068879b1e6ed88c8e282bc71
       architecture: linux/amd64
       source_repository: https://github.com/jkershawrh/sovereign-ai-401
       source_revision: "2bb27416e353280eef8da002fa0162b5bbf64f4c"
-      release_receipt: {path: handoff/evidence/published-presentation-release.json, sha256: "8c9800823cc691a607e646b59d387f3962e75dfe2cc1a76c164dc948c2cf2f89"}
+      release_receipt: {path: evidence/published-presentation-release.json, sha256: "8c9800823cc691a607e646b59d387f3962e75dfe2cc1a76c164dc948c2cf2f89"}
     showroom_content:
       repository: https://github.com/jkershawrh/sovereign-ai-401
       revision: "2bb27416e353280eef8da002fa0162b5bbf64f4c"
       bundle_digest: "sha256:17ff215713be5289bae81057d9a9fcdaea760008d2678c852259b87bef3a456c"
   factory_evidence:
-    development_journey: {path: handoff/evidence/factory-development-journey.json, sha256: "d2ce7cd3b0eff7bc142a87094b483160ae12833c83bdc68dcd516fce5e007655"}
-    presentation_verification: {path: handoff/evidence/presentation-verification.json, sha256: "bd5df9b845a51d15aca26f71a2a5875b230eb9bda682dbc0b4279ae42744cb25"}
-    zero_residue: {path: handoff/evidence/factory-zero-residue.json, sha256: "69b28b1a74db53a6b17f3e3415f41fd7b9b545015aaa550038648278183a9ce9"}
+    development_journey: {path: evidence/factory-development-journey.json, sha256: "d2ce7cd3b0eff7bc142a87094b483160ae12833c83bdc68dcd516fce5e007655"}
+    presentation_verification: {path: evidence/presentation-verification.json, sha256: "bd5df9b845a51d15aca26f71a2a5875b230eb9bda682dbc0b4279ae42744cb25"}
+    zero_residue: {path: evidence/factory-zero-residue.json, sha256: "69b28b1a74db53a6b17f3e3415f41fd7b9b545015aaa550038648278183a9ce9"}
   contracts:
     story_brief: story.brief.yaml
     attestation_evidence: contracts/attestation-evidence.schema.json
