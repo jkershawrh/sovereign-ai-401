@@ -32,3 +32,9 @@ test('no environment secret fallback or fabricated performance copy is shipped',
     assert.doesNotMatch(text, /zero performance impact|same speed|fallback.*env.*secret/i)
   }
 })
+
+test('presentation exposes explicit health and readiness endpoints', async () => {
+  const config = await readFile('nginx.conf', 'utf8')
+  assert.match(config, /location = \/healthz/)
+  assert.match(config, /location = \/readyz/)
+})
