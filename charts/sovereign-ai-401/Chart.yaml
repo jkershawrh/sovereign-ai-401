@@ -1,6 +1,6 @@
 apiVersion: v2
 name: sovereign-ai-401
-description: Rehearsal-only confidential inference foundations qualifier
+description: Rehearsal-only confidential AI presentation and trust-lifecycle qualifier
 type: application
 version: 0.1.0
 appVersion: 0.1.0

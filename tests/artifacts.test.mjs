@@ -25,6 +25,18 @@ test('chart defaults to rehearsal and cannot imply LIVE TDX', async () => {
   assert.match(values, /confidentialRuntime:\s*\n\s+enabled:\s+false/)
 })
 
+test('chart deploys both digest-pinned system components', async () => {
+  const values = await readFile('charts/sovereign-ai-401/values.yaml', 'utf8')
+  const presentation = await readFile('charts/sovereign-ai-401/templates/presentation.yaml', 'utf8')
+  const qualifier = await readFile('charts/sovereign-ai-401/templates/qualifier.yaml', 'utf8')
+  assert.match(values, /images:\s*\n\s+presentation:/)
+  assert.match(values, /\n\s+qualifier:/)
+  assert.match(presentation, /images\.presentation\.repository.*images\.presentation\.digest/)
+  assert.match(qualifier, /images\.qualifier\.repository.*images\.qualifier\.digest/)
+  assert.match(presentation, /path: \/readyz/)
+  assert.match(qualifier, /path: \/healthz/)
+})
+
 test('no environment secret fallback or fabricated performance copy is shipped', async () => {
   const files = ['README.md', 'src/demo.config.ts', 'showroom/content/modules/ROOT/pages/index.adoc']
   for (const path of files) {

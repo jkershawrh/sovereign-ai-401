@@ -1,1 +1,34 @@
-{"$schema":"https://json-schema.org/draft/2020-12/schema","type":"object","required":["sourceState","confidentialRuntime"],"properties":{"sourceState":{"const":"REHEARSAL"},"confidentialRuntime":{"type":"object","required":["enabled"],"properties":{"enabled":{"const":false},"runtimeClassName":{"const":""}}}}}
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["sourceState", "images", "presentation", "qualifier", "confidentialRuntime", "networkPolicy"],
+  "properties": {
+    "sourceState": {"const": "REHEARSAL"},
+    "images": {
+      "type": "object",
+      "required": ["presentation", "qualifier"],
+      "properties": {
+        "presentation": {"$ref": "#/$defs/image"},
+        "qualifier": {"$ref": "#/$defs/image"}
+      }
+    },
+    "presentation": {"type": "object"},
+    "qualifier": {"type": "object"},
+    "confidentialRuntime": {
+      "type": "object",
+      "required": ["enabled", "runtimeClassName"],
+      "properties": {"enabled": {"const": false}, "runtimeClassName": {"const": ""}}
+    },
+    "networkPolicy": {"type": "object"}
+  },
+  "$defs": {
+    "image": {
+      "type": "object",
+      "required": ["repository", "digest"],
+      "properties": {
+        "repository": {"type": "string", "minLength": 1},
+        "digest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"}
+      }
+    }
+  }
+}
