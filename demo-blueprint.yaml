@@ -1,0 +1,43 @@
+schema_version: demo-story.redhat-intel.com/demo-blueprint/v1
+identity:
+  catalog_item_id: sovereign-ai-401
+  title: "Sovereign AI 401 — Operate Confidential AI with Intel TDX"
+  track: sovereign_ai
+  learning_level: "401"
+  status: discovery_contract_design
+sources:
+  prerequisite:
+    repository: https://github.com/jkershawrh/sovereign-ai-301
+    revision: "d46625e8e1eb89e35c0a93385a47564d825a8115"
+  supplemental:
+    repository: https://github.com/jkershawrh/sovereign-ai-lab
+    revision: "05dea04c2faa95b2df426a228b8979ed7f07a098"
+story:
+  business_outcome: "Release protected AI resources only to an independently verified confidential workload."
+  tension: "The platform reports TDX capability, but capability is not proof that this workload is trustworthy now."
+  proof:
+    - challenge freshness and workload identity are bound to the quote
+    - measurements and TCB status are independently appraised
+    - secret and inference authorization is deterministic and fail-closed
+    - stale, simulated, mismatched, or revoked evidence is refused
+    - authorization and inference receipts form a verifiable chain
+  payoff: "The operator can prove why a workload received—or did not receive—access without trusting the model to govern itself."
+architecture:
+  components: [operator, openshift, sandboxed_containers, kata_cc_runtime, intel_tdx, dcap_quote_service, independent_verifier, reference_values, deterministic_policy, key_broker, inference_service, evidence_ledger, human_authority]
+  states: [CAPABILITY, CHALLENGE, ATTEST, APPRAISE, AUTHORIZE, INFER, REVOKE, VERIFY]
+  decisions: [ALLOW_REVIEW, REFUSE, ABSTAIN]
+authority:
+  automated_secret_release_in_rehearsal: false
+  human_approval_required: true
+  llm_may_appraise_or_authorize: false
+  factory_may_certify: false
+evidence:
+  source_states: [LIVE, REHEARSAL, OFFLINE]
+  live_claim_requires: [confidential_guest_running, fresh_challenge_bound_quote, verified_quote_signature, approved_measurements, approved_tcb_status, workload_identity_match, policy_receipt, protected_resource_receipt]
+  host_capability_is_workload_attestation: false
+runtime:
+  architecture: linux/amd64
+  deployment_scope: participant_namespace
+  exact_digest_images_required: true
+  release_gate: zero_high_zero_critical
+

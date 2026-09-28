@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://demo-story.redhat-intel.com/sovereign-ai-401/attestation-operation.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["correlation_id", "source_state", "challenge", "workload_identity", "quote", "appraisal", "policy", "authority"],
+  "properties": {
+    "correlation_id": {"type": "string", "format": "uuid"},
+    "source_state": {"enum": ["LIVE", "REHEARSAL", "OFFLINE"]},
+    "challenge": {
+      "type": "object",
+      "required": ["nonce", "issued_at", "expires_at"],
+      "properties": {
+        "nonce": {"type": "string", "minLength": 32},
+        "issued_at": {"type": "string", "format": "date-time"},
+        "expires_at": {"type": "string", "format": "date-time"}
+      }
+    },
+    "workload_identity": {"type": "object", "required": ["namespace", "service_account", "image_digest"], "properties": {"namespace": {"type": "string"}, "service_account": {"type": "string"}, "image_digest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"}}},
+    "quote": {"type": "object", "required": ["kind", "challenge_bound", "signature_verified"], "properties": {"kind": {"enum": ["TDX_QUOTE", "REHEARSAL_FIXTURE", "UNAVAILABLE"]}, "challenge_bound": {"type": "boolean"}, "signature_verified": {"type": "boolean"}}},
+    "appraisal": {"type": "object", "required": ["measurements", "tcb_status", "reference_values_version"], "properties": {"measurements": {"enum": ["APPROVED", "MISMATCH", "UNKNOWN"]}, "tcb_status": {"enum": ["APPROVED", "OUT_OF_DATE", "REVOKED", "UNKNOWN"]}, "reference_values_version": {"type": "string"}}},
+    "policy": {"type": "object", "required": ["decision", "reason_codes", "version"], "properties": {"decision": {"enum": ["ALLOW_REVIEW", "REFUSE", "ABSTAIN"]}, "reason_codes": {"type": "array", "items": {"type": "string"}, "minItems": 1}, "version": {"type": "string"}}},
+    "authority": {"type": "object", "required": ["human_review_required", "llm_authority"], "properties": {"human_review_required": {"const": true}, "llm_authority": {"const": "NONE"}}}
+  }
+}
+

@@ -1,0 +1,16 @@
+schema_version: demo-story.redhat-intel.com/story-brief/v1
+title: "Capability is not trust"
+audience: "Security, platform, AI, and risk teams operating protected models and data."
+desired_outcome: "Show the operational proof chain from an Intel TDX workload challenge to policy-bound resource access and revocation."
+duration_minutes: 12
+beats:
+  - {id: ordinary_world, claim: "Sensitive AI workloads need models, prompts, and secrets while running on shared infrastructure."}
+  - {id: stakes, claim: "A TDX-capable host does not prove that this workload, measurement, or request is trustworthy."}
+  - {id: root_cause, claim: "Trust decays when identity, freshness, measurement, policy, and authorization are not bound together."}
+  - {id: reframe, claim: "Treat confidential inference as a continuously appraised evidence chain."}
+  - {id: system_reveal, claim: "Intel TDX supplies hardware-rooted evidence; Red Hat OpenShift separates runtime, appraisal, policy, resource release, and audit authority."}
+  - {id: live_proof, claim: "Challenge, attest, appraise, authorize, infer, revoke, and verify one traceable request."}
+  - {id: trials, claim: "Refuse stale quotes, wrong measurements, identity mismatch, simulated evidence, and revoked policy."}
+  - {id: payoff, claim: "Protected resources move only when independent evidence and deterministic policy agree."}
+  - {id: next_journey, claim: "Proceed to 501 only after repeatable live TDX proof and destination qualification."}
+
