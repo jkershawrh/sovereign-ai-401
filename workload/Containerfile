@@ -1,6 +1,7 @@
-FROM cgr.dev/chainguard/node@sha256:6f32fc8fbde89a61e7829f7064c71022fe26734e32ea41f7590a2b708229cdef
+FROM cgr.dev/chainguard/wolfi-base@sha256:82d42999b1bc4b2aa724b442d300194901e64563efec75b3245e41f4c09fb6d2
+RUN apk add --no-cache nodejs-22-minimal
 WORKDIR /app
 COPY workload/ ./workload/
 USER 65532
 EXPOSE 8080
-CMD ["workload/server.mjs"]
+CMD ["/usr/bin/node", "workload/server.mjs"]
