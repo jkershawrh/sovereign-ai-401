@@ -1,11 +1,19 @@
-= Operate confidential AI with Intel TDX
+= Northstar Claims: operate confidential AI with Intel TDX
 
-This 75–90 minute lab uses **REHEARSAL** fixtures until the destination proves a running confidential guest and a fresh Intel TDX quote. It does not release a secret, invoke a model, or claim latency or performance.
+Northstar Claims left *Sovereign AI 301* with a governed `claims-assistant`
+candidate. Before regulated claim data can reach that service, the operations
+team must prove that workload identity, fresh attestation evidence, resource
+policy, inference authorization, and human authority stay separate.
 
-You will operate the complete trust lifecycle:
+In this 75–90 minute *Sovereign AI 401* lab, you operate that trust lifecycle:
 
 CAPABILITY → CHALLENGE → ATTEST → APPRAISE → AUTHORIZE → INFER → REVOKE → VERIFY
 
-Each exercise separates observed evidence from policy and authority. The
-deterministic service may issue a synthetic receipt, but only a named human can
-approve deployment, reference-value changes, certification, or promotion.
+The customer outcome is a reviewable, fail-closed operating record—not a claim
+that this cluster currently runs confidential inference. The supplied evidence
+is always labeled *REHEARSAL*: no live confidential guest, hardware-rooted TDX
+quote, protected key, model execution, latency, or production capacity is
+observed.
+
+You will use the *Terminal*, *Trust Evidence*, and *OpenShift Console* tabs,
+then hand a bounded record to *Sovereign AI 501* for fleet qualification.

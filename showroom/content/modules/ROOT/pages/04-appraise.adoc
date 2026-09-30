@@ -1,13 +1,35 @@
-= 4. Appraise independently
+= 4. Appraise evidence independently (10 minutes)
 
-The verifier—not the workload and not an LLM—checks authenticity, challenge
-binding, freshness, endorsements, reference measurements, and TCB status.
+== Show
 
-Run the measurement-mismatch, stale-quote, non-TDX, TCB-out-of-date, and
-verifier-unavailable scenarios. A mismatch or invalid state is `REFUSE`.
-Unavailable independent evidence is `ABSTAIN`. Neither result may release key
-material or invoke a model.
+The verifier checks freshness, measurement, TCB state, identity, and dependency
+availability. The workload does not grade its own evidence.
 
-Explain why appraisal is a claim about evidence, not permission to use a
-resource.
+== Learn
+
+Invalid evidence returns `REFUSE`; unavailable independent evidence returns
+`ABSTAIN`. Both stop before key release or model execution.
+
+== Do
+
+[source,bash,role="execute"]
+----
+for scenario in identity_mismatch invalid_measurement stale_evidence tcb_out_of_date non_tdx; do
+  curl -fsS -X POST "$TRUST_URL/api/v1/reset" >/dev/null
+  curl -fsS -X POST "$TRUST_URL/api/v1/operate" -H 'content-type: application/json' \
+    -d "{\"scenario\":\"$scenario\"}" | python3 -c 'import json,sys; d=json.load(sys.stdin); print(d["scenario"], d["decision"], d["reasonCodes"])'
+done
+----
+
+[source,bash,role="execute"]
+----
+curl -fsS -X POST "$TRUST_URL/api/v1/operate" \
+  -H 'content-type: application/json' -d '{"scenario":"verifier_unavailable"}' \
+  | tee /tmp/northstar-verifier-offline.json | python3 -m json.tool
+----
+
+== Prove
+
+All malformed states refuse. The verifier outage abstains with `OFFLINE`
+provenance. Explain why neither outcome is permission.
 

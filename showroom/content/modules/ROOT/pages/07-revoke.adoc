@@ -1,13 +1,33 @@
-= 7. Revoke trust
+= 7. Revoke trust at request time (10 minutes)
 
-Revoke the approved rehearsal measurement, then submit the previously allowed
-workload with a fresh nonce. The service must refuse it with
-`MEASUREMENT_REVOKED`.
+== Show
 
-This exercise proves that trust is evaluated at request time rather than
-granted permanently. Record the reference-values version, revocation actor,
-timestamp, and the denied follow-up receipt.
+Trust is not permanent. A human-approved reference-value change must affect the
+next matching request.
 
-Only named humans may change reference values. The lab does not promote policy
-or repair the confidential runtime automatically.
+== Learn
+
+Revocation is meaningful only when the same measurement that previously matched
+is denied immediately and the decision remains traceable.
+
+== Do
+
+[source,bash,role="execute"]
+----
+curl -fsS -X POST "$TRUST_URL/api/v1/reset" >/dev/null
+curl -fsS -X POST "$TRUST_URL/api/v1/revoke" \
+  | tee /tmp/northstar-revocation.json | python3 -m json.tool
+----
+
+[source,bash,role="execute"]
+----
+curl -fsS -X POST "$TRUST_URL/api/v1/operate" \
+  -H 'content-type: application/json' -d '{"scenario":"authorized"}' \
+  | tee /tmp/northstar-after-revoke.json | python3 -m json.tool
+----
+
+== Prove
+
+The next decision is `REFUSE` with `MEASUREMENT_REVOKED`. The lab does not
+change production reference values, promote policy, or self-remediate.
 

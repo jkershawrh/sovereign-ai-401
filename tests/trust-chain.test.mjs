@@ -57,6 +57,21 @@ test('nonce is fresh and single use', () => {
   assert.deepEqual(replay.reasonCodes, ['REPLAYED_CHALLENGE'])
 })
 
+test('authorized rehearsal evidence is fresh for each participant run', () => {
+  const originalNow = Date.now
+  try {
+    Date.now = () => 1_700_000_000_000
+    const first = scenarios.authorized
+    Date.now = () => 1_700_000_600_000
+    const later = scenarios.authorized
+    assert.equal(Date.parse(later.evidence.collectedAt) - Date.parse(first.evidence.collectedAt), 600_000)
+    assert.equal(Date.parse(later.evidence.expiresAt) - Date.parse(first.evidence.expiresAt), 600_000)
+    assert.equal(operate(later).decision, 'ALLOW_REVIEW')
+  } finally {
+    Date.now = originalNow
+  }
+})
+
 test('authorization receipt is not a key or inference permission', () => {
   const result = operate(scenarios.authorized)
   assert.equal(result.resourcePolicy.allowed, true)

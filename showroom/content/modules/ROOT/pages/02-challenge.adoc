@@ -1,11 +1,34 @@
-= 2. Issue a workload-bound challenge
+= 2. Bind a fresh challenge to the claims assistant (10 minutes)
 
-Declare the expected namespace, service account, immutable image digest, and
-requested protected resource. Issue a unique nonce with a short expiration.
+== Show
 
-The challenge prevents an old attestation result from being replayed for a new
-decision. Confirm that the operation contract binds the nonce to the exact
-workload identity and consumes it only once.
+One operation contract binds namespace, service account, immutable image,
+resource, nonce, and expiration before any appraisal begins.
 
-Run the replay fixture after the allowed rehearsal. The second request must be
-`REFUSE` with `REPLAYED_CHALLENGE`.
+== Learn
+
+A nonce is useful only once. Reusing an old result for a new decision would
+break freshness even if every other field looked correct.
+
+== Do
+
+[source,bash,role="execute"]
+----
+curl -fsS -X POST "$TRUST_URL/api/v1/reset" | python3 -m json.tool
+curl -fsS -X POST "$TRUST_URL/api/v1/operate" \
+  -H 'content-type: application/json' -d '{"scenario":"authorized"}' \
+  | tee /tmp/northstar-authorized.json | python3 -m json.tool
+----
+
+[source,bash,role="execute"]
+----
+curl -fsS -X POST "$TRUST_URL/api/v1/operate" \
+  -H 'content-type: application/json' -d '{"scenario":"authorized"}' \
+  | tee /tmp/northstar-replay.json | python3 -m json.tool
+----
+
+== Prove
+
+The first request is `ALLOW_REVIEW`; the second is `REFUSE` with
+`REPLAYED_CHALLENGE`. The rehearsal receipt is not a secret or deployment
+approval.

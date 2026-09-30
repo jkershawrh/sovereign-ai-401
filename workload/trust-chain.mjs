@@ -9,9 +9,7 @@ const expectedIdentity = Object.freeze({
   imageDigest: `sha256:${'4'.repeat(64)}`,
 })
 const protectedResource = 'models/granite/key'
-const now = Date.now()
-
-const base = {
+const baseAt = (now = Date.now()) => ({
   scenario: 'authorized',
   requestedResource: protectedResource,
   capability: {cpu: 'tdx-capable', runtimeClassName: 'kata-cc'},
@@ -29,63 +27,63 @@ const base = {
     signatureValid: true,
   },
   dependencies: {verifier: true, kbs: true, inference: true},
-}
+})
 
 export const scenarios = Object.freeze({
-  authorized: base,
-  identity_mismatch: {
+  get authorized() { return baseAt() },
+  get identity_mismatch() { const base = baseAt(); return {
     ...base,
     scenario: 'identity_mismatch',
     workloadIdentity: {...base.workloadIdentity, serviceAccount: 'unexpected'},
     evidence: {...base.evidence, nonce: 'nonce-identity-001-0123456789abcdef'},
-  },
-  invalid_measurement: {
+  } },
+  get invalid_measurement() { const base = baseAt(); return {
     ...base,
     scenario: 'invalid_measurement',
     evidence: {...base.evidence, nonce: 'nonce-measurement-001-0123456789abcdef', measurement: 'sha384:unexpected'},
-  },
-  stale_evidence: {
+  } },
+  get stale_evidence() { const now = Date.now(); const base = baseAt(now); return {
     ...base,
     scenario: 'stale_evidence',
     evidence: {...base.evidence, nonce: 'nonce-stale-001-0123456789abcdef', collectedAt: new Date(now - 600_000).toISOString(), expiresAt: new Date(now - 480_000).toISOString()},
-  },
-  replayed_evidence: {
+  } },
+  get replayed_evidence() { const base = baseAt(); return {
     ...base,
     scenario: 'replayed_evidence',
     evidence: {...base.evidence, nonce: 'nonce-replayed-001-0123456789abcdef'},
-  },
-  tcb_out_of_date: {
+  } },
+  get tcb_out_of_date() { const base = baseAt(); return {
     ...base,
     scenario: 'tcb_out_of_date',
     evidence: {...base.evidence, nonce: 'nonce-tcb-001-0123456789abcdef', tcbStatus: 'OUT_OF_DATE'},
-  },
-  revoked_measurement: {
+  } },
+  get revoked_measurement() { const base = baseAt(); return {
     ...base,
     scenario: 'revoked_measurement',
     evidence: {...base.evidence, nonce: 'nonce-revoked-001-0123456789abcdef'},
-  },
-  verifier_unavailable: {
+  } },
+  get verifier_unavailable() { const base = baseAt(); return {
     ...base,
     scenario: 'verifier_unavailable',
     evidence: {...base.evidence, nonce: 'nonce-verifier-001-0123456789abcdef'},
     dependencies: {verifier: false, kbs: true, inference: true},
-  },
-  kbs_unavailable: {
+  } },
+  get kbs_unavailable() { const base = baseAt(); return {
     ...base,
     scenario: 'kbs_unavailable',
     evidence: {...base.evidence, nonce: 'nonce-kbs-001-0123456789abcdef'},
     dependencies: {verifier: true, kbs: false, inference: true},
-  },
-  non_tdx: {
+  } },
+  get non_tdx() { const base = baseAt(); return {
     ...base,
     scenario: 'non_tdx',
     evidence: {...base.evidence, nonce: 'nonce-nontdx-001-0123456789abcdef', tee: 'none'},
-  },
-  simulated_live_claim: {
+  } },
+  get simulated_live_claim() { const base = baseAt(); return {
     ...base,
     scenario: 'simulated_live_claim',
     evidence: {...base.evidence, nonce: 'nonce-false-live-001-0123456789abcdef', sourceState: 'LIVE'},
-  },
+  } },
 })
 
 const authority = Object.freeze({

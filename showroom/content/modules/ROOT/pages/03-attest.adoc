@@ -1,13 +1,32 @@
-= 3. Collect attestation evidence
+= 3. Reject a false LIVE attestation claim (10 minutes)
 
-Trace where a real confidential workload would request an Intel TDX quote and
-where the quote service sits outside the workload boundary. Inspect the
-rehearsal fixture's provenance before using it.
+== Show
 
-The fixture is not a cryptographic quote and is always labeled **REHEARSAL**.
-Change its source state to `LIVE` without changing its evidence kind. The
-service must refuse the false-live claim before appraisal or resource policy.
+The scenario list declares `liveTdxObserved: false`. That provenance travels
+with every decision.
 
-Record the live gate: confidential guest running, challenge-bound quote,
-signature verified, and workload identity observed.
+== Learn
+
+Changing a label cannot turn a synthetic fixture into a cryptographic quote.
+The service must reject the claim before resource policy or inference.
+
+== Do
+
+[source,bash,role="execute"]
+----
+curl -fsS "$TRUST_URL/api/v1/scenarios" \
+  | tee /tmp/northstar-scenarios.json | python3 -m json.tool
+----
+
+[source,bash,role="execute"]
+----
+curl -fsS -X POST "$TRUST_URL/api/v1/operate" \
+  -H 'content-type: application/json' -d '{"scenario":"simulated_live_claim"}' \
+  | tee /tmp/northstar-false-live.json | python3 -m json.tool
+----
+
+== Prove
+
+Confirm `sourceState` remains `REHEARSAL`, the reason is `FALSE_LIVE_CLAIM`,
+and no protected key or model was used.
 

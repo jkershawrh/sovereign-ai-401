@@ -1,7 +1,7 @@
 schema_version: demo-story.redhat-intel.com/story-brief/v1
-title: "Capability is not trust"
+title: "Northstar Claims: capability is not trust"
 audience: "Security, platform, AI, and risk teams operating protected models and data."
-desired_outcome: "Show the operational proof chain from an Intel TDX workload challenge to policy-bound resource access and revocation."
+desired_outcome: "Continue Sovereign AI 301 by operating Northstar Claims' governed claims-assistant through an Intel TDX rehearsal chain, policy-bound resource access, revocation, and an explicit handoff to Sovereign AI 501."
 duration_minutes: 12
 beats:
   - {id: ordinary_world, claim: "Sensitive AI workloads need models, prompts, and secrets while running on shared infrastructure."}
@@ -13,4 +13,3 @@ beats:
   - {id: trials, claim: "Refuse stale quotes, wrong measurements, identity mismatch, simulated evidence, and revoked policy."}
   - {id: payoff, claim: "Protected resources move only when independent evidence and deterministic policy agree."}
   - {id: next_journey, claim: "Proceed to 501 only after repeatable live TDX proof and destination qualification."}
-

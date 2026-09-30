@@ -1,15 +1,33 @@
-= 1. Observe capability
+= 1. Separate platform capability from workload proof (10 minutes)
 
-Inspect the cluster, node, and runtime configuration. Record whether Intel TDX,
-the DCAP quote service, OpenShift Sandboxed Containers, and `kata-cc` are
-present.
+== Show
 
-Capability is not workload proof. A CPU flag or `runtimeClassName` cannot show
-that this pod launched as a confidential guest, produced a valid quote, or
-matches approved measurements. Record unavailable observations as **UNKNOWN**
-and keep the exercise in **REHEARSAL**.
+Open *OpenShift Console → Workloads → Pods*. The two Launchpad-owned pods are a
+presentation and a deterministic qualifier; neither is a confidential guest.
 
-Compare the source lab's known blocker: the TDX VM can launch, but the kata
-agent does not complete its vsock connection. Explain why host capability is
-still useful evidence—and why it cannot authorize a protected resource.
+== Learn
+
+TDX capability, a RuntimeClass, or a CPU flag can describe what a destination
+might support. None proves that Northstar's `claims-assistant` launched as a
+confidential guest or produced a current quote.
+
+== Do
+
+[source,bash,role="execute"]
+----
+export TRUST_URL=http://sovereign-ai-401-qualifier:8080
+curl -fsS "$TRUST_URL/healthz" | python3 -m json.tool
+----
+
+[source,bash,role="execute"]
+----
+oc get deploy,pod,svc -l app.kubernetes.io/part-of=sovereign-ai-401
+oc auth can-i get nodes
+----
+
+== Prove
+
+The health response must say `REHEARSAL`, and the cluster-wide authorization
+check must be `no`. Record unavailable hardware observations as `UNKNOWN`, not
+as a pass.
 

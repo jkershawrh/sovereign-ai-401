@@ -1,15 +1,43 @@
-= 6. Keep inference authorization separate
+= 6. Keep inference authorization separate (10 minutes)
 
-A valid appraisal and resource-policy match do not authorize a caller, prompt,
-model, or inference request. Inspect the response and verify:
+== Show
 
-* `keyMaterialReleased` is `false`;
-* inference authorization is `false`;
-* `modelInvoked` is `false`;
-* no latency or performance claim is present;
-* LLM authority is `NONE`.
+A resource-policy match does not authorize a caller, prompt, model, residency
+boundary, or inference request.
 
-Describe the additional caller, model, residency, and usage policies a real
-inference path would require. Do not add them to the receipt unless the
-destination can observe and verify them.
+== Learn
+
+This lab intentionally performs *zero model executions*. Inference is central
+as the protected customer outcome, but claiming a model call here would be
+dishonest because no inference endpoint is attached.
+
+== Do
+
+[source,bash,role="execute"]
+----
+python3 - <<'PY'
+import json
+d=json.load(open('/tmp/northstar-resource.json'))
+print(json.dumps({'resource': d['resourcePolicy'], 'inference': d['inference']}, indent=2))
+PY
+----
+
+[source,bash,role="execute"]
+----
+python3 - <<'PY'
+import json
+d=json.load(open('/tmp/northstar-resource.json'))
+assert d['protectedResource']['keyMaterialReleased'] is False
+assert d['inference']['authorized'] is False
+assert d['inference']['modelInvoked'] is False
+assert d['inference']['performanceClaim'] is None
+print('PASS: zero model executions; inference authority remains separate')
+PY
+----
+
+== Prove
+
+State what a later LIVE gate would require: caller identity, approved model,
+data residency, usage policy, a protected-resource proof, and observed model
+execution. None is inferred from the rehearsal receipt.
 

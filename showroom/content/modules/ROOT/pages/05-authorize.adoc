@@ -1,11 +1,35 @@
-= 5. Authorize one resource
+= 5. Authorize one bounded resource (10 minutes)
 
-Apply deterministic resource policy to the appraised identity. The policy binds
-one approved workload identity to one named resource and policy version.
+== Show
 
-The allowed rehearsal emits only a hash receipt. It never returns key material.
-Change the requested resource and verify `RESOURCE_POLICY_DENIED`. Disable the
-key broker and verify `ABSTAIN` rather than a fallback secret.
+Northstar policy matches one approved workload identity to one named resource.
+The allowed rehearsal returns a digest receipt only.
 
-Capture the appraisal and authorization receipts as separate evidence records.
+== Learn
+
+Appraisal answers whether evidence matches. Resource policy separately answers
+whether that identity may request that resource. A KBS outage cannot fall back
+to an environment secret.
+
+== Do
+
+[source,bash,role="execute"]
+----
+curl -fsS -X POST "$TRUST_URL/api/v1/reset" >/dev/null
+curl -fsS -X POST "$TRUST_URL/api/v1/operate" \
+  -H 'content-type: application/json' -d '{"scenario":"authorized"}' \
+  | tee /tmp/northstar-resource.json | python3 -m json.tool
+----
+
+[source,bash,role="execute"]
+----
+curl -fsS -X POST "$TRUST_URL/api/v1/operate" \
+  -H 'content-type: application/json' -d '{"scenario":"kbs_unavailable"}' \
+  | tee /tmp/northstar-kbs-offline.json | python3 -m json.tool
+----
+
+== Prove
+
+The allowed record contains `SYNTHETIC_RECEIPT_ONLY` and
+`keyMaterialReleased: false`. The unavailable KBS returns `ABSTAIN`.
 

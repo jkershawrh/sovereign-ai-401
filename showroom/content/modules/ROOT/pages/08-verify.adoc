@@ -1,14 +1,49 @@
-= 8. Verify evidence and reclaim
+= 8. Package evidence and respect the reclaim boundary (10 minutes)
 
-Verify that capability, challenge, evidence, appraisal, authorization, refusal,
-and revocation records share one correlation identifier and valid digest links.
-The complete factory journey proves deterministic **REHEARSAL** behavior only.
+== Show
 
-It does not prove a running confidential guest, a current hardware-rooted TDX
-quote, protected-resource delivery, confidential inference, or performance.
-Launchpad must independently qualify those facts in the destination cluster.
+The final record separates observed facts, rehearsal results, LIVE blockers,
+and retained human authority before Northstar proceeds to *Sovereign AI 501*.
 
-Uninstall the participant-scoped release and verify that pods, routes, services,
-policies, temporary evidence, and credentials leave zero residue. Record any
-cluster-owned shared operators separately; participants do not remove them.
+== Learn
+
+Participants own their temporary evidence files. Launchpad owns the qualifier,
+presentation, Showroom, namespace, routes, policies, and final reclaim. A learner
+must never delete Launchpad-owned resources.
+
+== Do
+
+[source,bash,role="execute"]
+----
+python3 - <<'PY'
+import json, pathlib
+paths=['/tmp/northstar-authorized.json','/tmp/northstar-false-live.json','/tmp/northstar-verifier-offline.json','/tmp/northstar-after-revoke.json']
+records=[json.load(open(p)) for p in paths]
+package={'journey':'sovereign-ai-401','customer':'Northstar Claims','records':records,
+         'liveBlockers':['confidential guest','current TDX quote','reviewed Trustee/KBS','protected resource','observed inference'],
+         'humanAuthorityRetained':True}
+pathlib.Path('/tmp/northstar-401-evidence.json').write_text(json.dumps(package,indent=2))
+print('/tmp/northstar-401-evidence.json')
+PY
+----
+
+[source,bash,role="execute"]
+----
+python3 - <<'PY'
+import json
+d=json.load(open('/tmp/northstar-401-evidence.json'))
+assert len({r['correlationId'] for r in d['records']}) == 1
+assert all(r['inference']['modelInvoked'] is False for r in d['records'])
+assert all(r['authority']['promotionEligible'] is False for r in d['records'])
+print('PASS: correlated rehearsal evidence; zero model executions; human promotion retained')
+PY
+rm -f /tmp/northstar-*.json
+----
+
+== Prove
+
+Verify the participant-owned `/tmp` artifacts are gone while
+`oc get deploy -l app.kubernetes.io/part-of=sovereign-ai-401` still shows the
+Launchpad-owned services. Use the portal's reclaim action after the lab; do not
+run `helm uninstall`, delete the namespace, or remove shared operators.
 
