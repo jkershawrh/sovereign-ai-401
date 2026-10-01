@@ -37,6 +37,8 @@ test('chart deploys both digest-pinned system components', async () => {
   assert.match(presentation, /path: \/readyz/)
   assert.match(qualifier, /path: \/healthz/)
   assert.match(route, /metadata:\s*\n\s+name: story/)
+  assert.match(route, /metadata:\s*\n\s+name: trust-evidence/)
+  assert.match(route, /name: \{\{ \.Release\.Name \}\}-qualifier/)
 })
 
 test('no environment secret fallback or fabricated performance copy is shipped', async () => {
