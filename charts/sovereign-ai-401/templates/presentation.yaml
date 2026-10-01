@@ -15,6 +15,7 @@ spec:
         - name: presentation
           image: "{{ .Values.images.presentation.repository }}@{{ .Values.images.presentation.digest }}"
           imagePullPolicy: {{ .Values.imagePullPolicy }}
+          args: ["-g", "daemon off; worker_processes 1;"]
           ports: [{name: http, containerPort: 8080}]
           readinessProbe: {httpGet: {path: /readyz, port: http}}
           livenessProbe: {httpGet: {path: /healthz, port: http}}
