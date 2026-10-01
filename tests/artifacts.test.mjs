@@ -19,6 +19,12 @@ test('contract implementation and delivery artifacts exist', async () => {
   for (const path of mustExist) await access(path)
 })
 
+test('Showroom playbook selects the reviewed Antora component', async () => {
+  const playbook = await readFile('showroom/default-site.yml', 'utf8')
+  assert.match(playbook, /start_page:\s+sovereign-ai-401::index\.adoc/)
+  assert.match(playbook, /start_path:\s+showroom\/content/)
+})
+
 test('chart defaults to rehearsal and cannot imply LIVE TDX', async () => {
   const values = await readFile('charts/sovereign-ai-401/values.yaml', 'utf8')
   assert.match(values, /sourceState:\s*REHEARSAL/)

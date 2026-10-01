@@ -1,5 +1,12 @@
-antora:
-  name: modules
-  dir: www
-  modules: [ROOT]
-  playbook: site.yml
+site:
+  title: Sovereign AI 401
+  start_page: sovereign-ai-401::index.adoc
+content:
+  sources:
+    - url: /showroom/repo
+      branches: HEAD
+      start_path: showroom/content
+ui:
+  bundle:
+    url: https://github.com/rhpds/rhdp_showroom_theme/releases/download/v2.0.3/ui-bundle.zip
+    snapshot: true
