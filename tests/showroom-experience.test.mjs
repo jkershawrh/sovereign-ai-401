@@ -40,12 +40,13 @@ test('operator, inference, evidence, and cleanup boundaries are explicit', async
   assert.match(all, /REFUSE|ABSTAIN/)
 })
 
-test('network policy admits only presentation and Showroom clients and preserves the presentation route', async () => {
+test('network policy admits only reviewed clients and preserves participant routes', async () => {
   const policy = await readFile('charts/sovereign-ai-401/templates/networkpolicy.yaml', 'utf8')
   assert.match(policy, /app\.kubernetes\.io\/name: \{\{ \.Release\.Name \}\}-presentation/)
   assert.match(policy, /app\.kubernetes\.io\/name: showroom/)
   assert.match(policy, /name: openshift-dns/)
   assert.match(policy, /network\.openshift\.io\/policy-group: ingress/)
   assert.match(policy, /app\.kubernetes\.io\/name: \{\{ \.Release\.Name \}\}-qualifier/)
+  assert.match(policy, /qualifier-ingress/)
   assert.doesNotMatch(policy, /namespaceSelector:\s*\{\}/)
 })
