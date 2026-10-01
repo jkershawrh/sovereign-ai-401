@@ -15,7 +15,7 @@ spec:
 apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
-  name: trust-evidence
+  name: trust
 spec:
   to:
     kind: Service
