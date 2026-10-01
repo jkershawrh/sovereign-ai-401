@@ -23,9 +23,11 @@ spec:
           volumeMounts:
             - {name: tmp, mountPath: /tmp}
             - {name: nginx-tmp, mountPath: /var/lib/nginx/tmp}
+            - {name: nginx-run, mountPath: /run}
       volumes:
         - {name: tmp, emptyDir: {sizeLimit: 16Mi}}
         - {name: nginx-tmp, emptyDir: {sizeLimit: 16Mi}}
+        - {name: nginx-run, emptyDir: {sizeLimit: 1Mi}}
 ---
 apiVersion: v1
 kind: Service
