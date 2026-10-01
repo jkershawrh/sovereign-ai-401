@@ -29,12 +29,14 @@ test('chart deploys both digest-pinned system components', async () => {
   const values = await readFile('charts/sovereign-ai-401/values.yaml', 'utf8')
   const presentation = await readFile('charts/sovereign-ai-401/templates/presentation.yaml', 'utf8')
   const qualifier = await readFile('charts/sovereign-ai-401/templates/qualifier.yaml', 'utf8')
+  const route = await readFile('charts/sovereign-ai-401/templates/route.yaml', 'utf8')
   assert.match(values, /images:\s*\n\s+presentation:/)
   assert.match(values, /\n\s+qualifier:/)
   assert.match(presentation, /images\.presentation\.repository.*images\.presentation\.digest/)
   assert.match(qualifier, /images\.qualifier\.repository.*images\.qualifier\.digest/)
   assert.match(presentation, /path: \/readyz/)
   assert.match(qualifier, /path: \/healthz/)
+  assert.match(route, /metadata:\s*\n\s+name: story/)
 })
 
 test('no environment secret fallback or fabricated performance copy is shipped', async () => {
